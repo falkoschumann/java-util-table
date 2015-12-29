@@ -15,6 +15,8 @@ import java.util.Set;
  * @param <R> the type of row keys maintained by this table
  * @param <C> the type of column keys maintained by this table
  * @param <V> the type of mapped values
+ * @author Falko Schumann
+ * @since 1.0
  */
 public interface Table<R, C, V> {
 
@@ -41,13 +43,17 @@ public interface Table<R, C, V> {
 
     }
 
-    Set<Cell<R, C, V>> cellSet();
+    // TODO from Guava: Map<C, V> row(R rowKey);
+
+    Set<R> rowKeySet();
 
     // TODO from Guava: Map<R, V> column(C columnKey);
 
     Set<C> columnKeySet();
 
-    void clear();
+    Collection<V> values();
+
+    Set<Cell<R, C, V>> cellSet();
 
     boolean containsCell(R rowKey, C columnKey);
 
@@ -59,21 +65,17 @@ public interface Table<R, C, V> {
 
     V get(R rowKey, C columnKey);
 
-    boolean isEmpty();
-
     V put(R rowKey, C columnKey, V value);
 
     void putAll(Table<? extends R, ? extends C, ? extends V> table);
 
     V remove(R rowKey, C columnKey);
 
-    // TODO from Guava: Map<C, V> row(R rowKey);
+    void clear();
 
-    Set<R> rowKeySet();
+    boolean isEmpty();
 
     int size();
-
-    Collection<V> values();
 
     @Override
     boolean equals(Object o);

@@ -9,6 +9,15 @@
     <artifactId>java-util-table</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <name>Table Extension for Java Collections Framework</name>
     <description>
         An object that maps rows and columns to value.
