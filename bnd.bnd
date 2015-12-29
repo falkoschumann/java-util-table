@@ -1,0 +1,6 @@
+-exportcontents: \
+    de.muspellheim.java.util
+-sources: true
+
+Bundle-Name: Table Extension for Java Collections Framework
+Bundle-SymbolicName: de.muspellheim.java.util
