@@ -5,13 +5,15 @@
 
 package de.muspellheim.java.util;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Falko Schumann
  * @since 1.0
  */
-public class ArrayTable<R, C, V> implements Table<R, C, V> {
+public class ArrayTable<R, C, V> extends AbstractTable<R, C, V> {
 
     private Map<R, Integer> rowKeys = new LinkedHashMap<>();
     private Map<C, Integer> columnKeys = new LinkedHashMap<>();
@@ -44,38 +46,11 @@ public class ArrayTable<R, C, V> implements Table<R, C, V> {
     }
 
     @Override
-    public Collection<V> values() {
-        Collection<V> result = new ArrayList<>();
-        cellSet().forEach(c -> result.add(c.getValue()));
-        return result;
-    }
-
-    @Override
-    public Set<Cell<R, C, V>> cellSet() {
-        Set<Cell<R, C, V>> result = new LinkedHashSet<>();
-        for (R r : rowKeySet())
-            for (C c : columnKeySet())
-                if (containsCell(r, c))
-                    result.add(new SimpleCell<>(r, c, get(r, c)));
-        return result;
-    }
-
-    @Override
-    public boolean containsCell(R rowKey, C columnKey) {
-        return get(rowKey, columnKey) != null;
-    }
-
-    @Override
-    public boolean containsValue(V value) {
-        return values().contains(value);
-    }
-
-    @Override
-    public V get(R rowKey, C columnKey) {
+    public V get(Object rowKey, Object columnKey) {
         return elementData(rowKey, columnKey);
     }
 
-    private V elementData(R rowKey, C columnKey) {
+    private V elementData(Object rowKey, Object columnKey) {
         return (V) elementData[rowKeys.get(rowKey)][columnKeys.get(columnKey)];
     }
 
@@ -84,11 +59,6 @@ public class ArrayTable<R, C, V> implements Table<R, C, V> {
         V result = elementData(rowKey, columnKey);
         elementData[rowKeys.get(rowKey)][columnKeys.get(columnKey)] = value;
         return result;
-    }
-
-    @Override
-    public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
-        table.cellSet().forEach(c -> this.put(c.getRowKey(), c.getColumnKey(), c.getValue()));
     }
 
     @Override
@@ -103,86 +73,6 @@ public class ArrayTable<R, C, V> implements Table<R, C, V> {
         for (int r = 0; r < rowKeySet().size(); r++)
             for (int c = 0; c < columnKeySet().size(); c++)
                 elementData[r][c] = null;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
-    @Override
-    public int size() {
-        return values().size();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ArrayTable)) return false;
-        ArrayTable<?, ?, ?> that = (ArrayTable<?, ?, ?>) o;
-        return Objects.equals(rowKeySet(), that.rowKeySet()) &&
-                Objects.equals(columnKeySet(), that.columnKeySet()) &&
-                Objects.equals(cellSet(), that.cellSet());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(rowKeySet(), columnKeySet(), cellSet());
-    }
-
-    public static class SimpleCell<R, C, V> implements Table.Cell<R, C, V> {
-
-        private R rowKey;
-        private C columnKey;
-        private V value;
-
-        public SimpleCell(R rowKey, C columnKey, V value) {
-            this.rowKey = rowKey;
-            this.columnKey = columnKey;
-            this.value = value;
-        }
-
-        public SimpleCell(Table.Cell<R, C, V> cell) {
-            this.rowKey = cell.getRowKey();
-            this.columnKey = cell.getColumnKey();
-            this.value = cell.getValue();
-        }
-
-        @Override
-        public R getRowKey() {
-            return rowKey;
-        }
-
-        @Override
-        public C getColumnKey() {
-            return columnKey;
-        }
-
-        @Override
-        public V getValue() {
-            return value;
-        }
-
-        @Override
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof SimpleCell)) return false;
-            SimpleCell<?, ?, ?> that = (SimpleCell<?, ?, ?>) o;
-            return Objects.equals(getRowKey(), that.getRowKey()) &&
-                    Objects.equals(getColumnKey(), that.getColumnKey()) &&
-                    Objects.equals(getValue(), that.getValue());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getRowKey(), getColumnKey(), getValue());
-        }
-
     }
 
 }

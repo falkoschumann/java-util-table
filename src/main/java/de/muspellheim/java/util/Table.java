@@ -55,15 +55,15 @@ public interface Table<R, C, V> {
 
     Set<Cell<R, C, V>> cellSet();
 
-    boolean containsCell(R rowKey, C columnKey);
+    boolean containsCell(Object rowKey, Object columnKey);
 
     // TODO from Guava: boolean containsColumn(C columnKey);
 
     // TODO from Guava: boolean containsRow(R rowKey);
 
-    boolean containsValue(V value);
+    boolean containsValue(Object value);
 
-    V get(R rowKey, C columnKey);
+    V get(Object rowKey, Object columnKey);
 
     V put(R rowKey, C columnKey, V value);
 

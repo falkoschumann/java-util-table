@@ -45,6 +45,8 @@ public class TableTest {
 
         assertFalse(table.isEmpty());
         assertEquals(3, table.size());
+        assertTrue(table.containsValue("Foobar"));
+        assertFalse(table.containsValue("Bar"));
     }
 
 }
