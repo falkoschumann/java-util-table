@@ -8,8 +8,6 @@ package de.muspellheim.java.util;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 /**
@@ -18,7 +16,7 @@ import static org.junit.Assert.*;
  * @author Falko Schumann
  * @since 1.0
  */
-public class TableTest {
+public abstract class AbstractTableTest {
 
     private Table<Integer, Character, String> table;
 
@@ -27,20 +25,16 @@ public class TableTest {
         table = createTable();
     }
 
-    private ArrayTable<Integer, Character, String> createTable() {
-        return new ArrayTable<>(Arrays.asList(1, 2, 3, 4), Arrays.asList('A', 'B', 'C'));
-    }
+    protected abstract Table<Integer, Character, String> createTable();
 
     @Test
     public void testEmptyTable() {
         assertTableIsEmpty(table);
     }
 
-    private static void assertTableIsEmpty(Table table) {
+    protected static void assertTableIsEmpty(Table table) {
         assertTrue(table.isEmpty());
         assertEquals(0, table.size());
-        assertEquals(4, table.rowKeySet().size());
-        assertEquals(3, table.columnKeySet().size());
         assertTrue(table.values().isEmpty());
         assertTrue(table.cellSet().isEmpty());
     }
@@ -52,13 +46,13 @@ public class TableTest {
         assertTableIsFilled(table);
     }
 
-    private static void fillTable(Table<Integer, Character, String> table) {
+    protected static void fillTable(Table<Integer, Character, String> table) {
         table.put(1, 'A', "Foo");
         table.put(2, 'B', "Foo");
         table.put(4, 'C', "Foobar");
     }
 
-    private static void assertTableIsFilled(Table table) {
+    protected static void assertTableIsFilled(Table table) {
         assertFalse(table.isEmpty());
         assertEquals(3, table.size());
         assertTrue(table.containsValue("Foobar"));

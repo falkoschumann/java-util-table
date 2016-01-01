@@ -21,9 +21,8 @@ import java.util.Set;
 public interface Table<R, C, V> {
 
     // TODO add default implementation for Java 8 Streaming API, see java.util.Map
-    // TODO implement with array
-    // TODO implement with map
     // TODO implement for enum
+    // TODO add modCount
 
     interface Cell<R, C, V> {
 

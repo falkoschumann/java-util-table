@@ -14,19 +14,23 @@ import java.util.*;
 public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
     @Override
-    public Collection<V> values() {
-        Collection<V> result = new ArrayList<>();
-        cellSet().forEach(c -> result.add(c.getValue()));
+    public Set<R> rowKeySet() {
+        Set<R> result = new LinkedHashSet<>();
+        cellSet().forEach(c -> result.add(c.getRowKey()));
         return result;
     }
 
     @Override
-    public Set<Cell<R, C, V>> cellSet() {
-        Set<Cell<R, C, V>> result = new LinkedHashSet<>();
-        for (R r : rowKeySet())
-            for (C c : columnKeySet())
-                if (containsCell(r, c))
-                    result.add(new SimpleCell<>(r, c, get(r, c)));
+    public Set<C> columnKeySet() {
+        Set<C> result = new LinkedHashSet<>();
+        cellSet().forEach(c -> result.add(c.getColumnKey()));
+        return result;
+    }
+
+    @Override
+    public Collection<V> values() {
+        Collection<V> result = new ArrayList<>();
+        cellSet().forEach(c -> result.add(c.getValue()));
         return result;
     }
 

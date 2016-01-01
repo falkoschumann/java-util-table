@@ -6,6 +6,7 @@
 package de.muspellheim.java.util;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,6 +49,16 @@ public class ArrayTable<R, C, V> extends AbstractTable<R, C, V> {
     @Override
     public Set<C> columnKeySet() {
         return columnKeys.keySet();
+    }
+
+    @Override
+    public Set<Cell<R, C, V>> cellSet() {
+        Set<Cell<R, C, V>> result = new LinkedHashSet<>();
+        for (R r : rowKeySet())
+            for (C c : columnKeySet())
+                if (containsCell(r, c))
+                    result.add(new SimpleCell<>(r, c, get(r, c)));
+        return result;
     }
 
     @Override
