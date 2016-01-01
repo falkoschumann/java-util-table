@@ -60,7 +60,7 @@ public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
         if (o == this)
             return true;
 
-        if (!(o instanceof Map))
+        if (!(o instanceof Table))
             return false;
         Table<?, ?, ?> t = (Table<?, ?, ?>) o;
         if (t.size() != size())
@@ -96,6 +96,31 @@ public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
         return h;
     }
 
+    public String toString() {
+        Iterator<Table.Cell<R, C, V>> i = cellSet().iterator();
+        if (!i.hasNext())
+            return "{}";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        do {
+            Table.Cell<R, C, V> e = i.next();
+            R rowKey = e.getRowKey();
+            C columnKey = e.getColumnKey();
+            V value = e.getValue();
+            sb.append('(');
+            sb.append(rowKey == this ? "(this Table)" : rowKey);
+            sb.append(',').append(' ');
+            sb.append(columnKey == this ? "(this Table)" : columnKey);
+            sb.append(')');
+            sb.append('=');
+            sb.append(value == this ? "(this Table)" : value);
+            if (i.hasNext())
+                sb.append(',').append(' ');
+        } while (i.hasNext());
+        return sb.append('}').toString();
+    }
+
     public static class SimpleCell<R, C, V> implements Table.Cell<R, C, V> {
 
         private R rowKey;
@@ -109,9 +134,7 @@ public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
         }
 
         public SimpleCell(Table.Cell<R, C, V> cell) {
-            this.rowKey = cell.getRowKey();
-            this.columnKey = cell.getColumnKey();
-            this.value = cell.getValue();
+            this(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
         }
 
         @Override
