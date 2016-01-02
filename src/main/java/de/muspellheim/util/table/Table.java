@@ -3,7 +3,7 @@
  * Released under the terms of the MIT License.
  */
 
-package de.muspellheim.java.util;
+package de.muspellheim.util.table;
 
 import java.util.Collection;
 import java.util.Set;
@@ -21,8 +21,8 @@ import java.util.Set;
 public interface Table<R, C, V> {
 
     // TODO add default implementation for Java 8 Streaming API, see java.util.Map
-    // TODO implement for enum
     // TODO add modCount
+    // TODO think about Object instead of R, C, V in Parameters, see Collection and Map
 
     interface Cell<R, C, V> {
 

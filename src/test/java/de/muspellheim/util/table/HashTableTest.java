@@ -3,25 +3,23 @@
  * Released under the terms of the MIT License.
  */
 
-package de.muspellheim.java.util;
-
-import java.util.Arrays;
+package de.muspellheim.util.table;
 
 /**
- * Unit tests for {@link ArrayTable} implementation.
+ * Unit tests for {@link HashTable} implementation.
  *
  * @author Falko Schumann
  * @since 1.0
  */
-public class ArrayTableTest extends AbstractTableTest {
+public class HashTableTest extends AbstractTableTest {
 
     protected Table<Integer, Character, String> createTable() {
-        return new ArrayTable<>(Arrays.asList(1, 2, 3, 4), Arrays.asList('A', 'B', 'C'));
+        return new HashTable<>();
     }
 
     @Override
     protected Table<Integer, Character, String> createTable(Table<Integer, Character, String> table) {
-        return new ArrayTable<>(table);
+        return new HashTable<>(table);
     }
 
 }

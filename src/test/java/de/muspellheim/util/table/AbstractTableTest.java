@@ -3,7 +3,7 @@
  * Released under the terms of the MIT License.
  */
 
-package de.muspellheim.java.util;
+package de.muspellheim.util.table;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,19 +11,21 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for {@link EnumTable} implementation.
+ * Base unit tests for {@link Table} implementations.
  *
  * @author Falko Schumann
  * @since 1.0
  */
-public class EnumTableTest {
+public abstract class AbstractTableTest {
 
-    private EnumTable<VerticalAlignment, HorizontalAlignment, String> table;
+    private Table<Integer, Character, String> table;
 
     @Before
     public void setUp() {
-        table = new EnumTable<>(VerticalAlignment.class, HorizontalAlignment.class);
+        table = createTable();
     }
+
+    protected abstract Table<Integer, Character, String> createTable();
 
     @Test
     public void testEmptyTable() {
@@ -44,13 +46,13 @@ public class EnumTableTest {
         assertTableIsFilled(table);
     }
 
-    protected static void fillTable(Table<VerticalAlignment, HorizontalAlignment, String> table) {
-        table.put(VerticalAlignment.TOP, HorizontalAlignment.LEFT, "Foo");
-        table.put(VerticalAlignment.MIDDLE, HorizontalAlignment.CENTER, "Foo");
-        table.put(VerticalAlignment.BOTTOM, HorizontalAlignment.RIGHT, "Foobar");
+    protected static void fillTable(Table<Integer, Character, String> table) {
+        table.put(1, 'A', "Foo");
+        table.put(2, 'B', "Foo");
+        table.put(4, 'C', "Foobar");
     }
 
-    protected static void assertTableIsFilled(Table table) {
+    protected static void assertTableIsFilled(Table<Integer, Character, String> table) {
         assertFalse(table.isEmpty());
         assertEquals(3, table.size());
         assertTrue(table.containsValue("Foobar"));
@@ -61,10 +63,12 @@ public class EnumTableTest {
     public void testCopyTable() {
         fillTable(table);
 
-        Table copy = new EnumTable<>(table);
+        Table<Integer, Character, String> copy = createTable(table);
 
         assertTableIsFilled(copy);
     }
+
+    protected abstract Table<Integer, Character, String> createTable(Table<Integer, Character, String> table);
 
     @Test
     public void testClearTable() {
@@ -79,23 +83,23 @@ public class EnumTableTest {
     public void testRemoveCell() {
         fillTable(table);
         assertEquals(3, table.size());
-        assertTrue(table.containsCell(VerticalAlignment.MIDDLE, HorizontalAlignment.CENTER));
+        assertTrue(table.containsCell(4, 'C'));
 
-        table.remove(VerticalAlignment.MIDDLE, HorizontalAlignment.CENTER);
+        table.remove(4, 'C');
 
         assertEquals(2, table.size());
-        assertFalse(table.containsCell(VerticalAlignment.MIDDLE, HorizontalAlignment.CENTER));
+        assertFalse(table.containsCell(4, 'C'));
     }
 
     @Test
     public void testEquals() {
-        Table<VerticalAlignment, HorizontalAlignment, String> a = new EnumTable<>(VerticalAlignment.class, HorizontalAlignment.class);
+        Table<Integer, Character, String> a = createTable();
         fillTable(a);
-        Table<VerticalAlignment, HorizontalAlignment, String> b = new EnumTable<>(VerticalAlignment.class, HorizontalAlignment.class);
+        Table<Integer, Character, String> b = createTable();
         fillTable(b);
-        Table<VerticalAlignment, HorizontalAlignment, String> c = new EnumTable<>(VerticalAlignment.class, HorizontalAlignment.class);
+        Table<Integer, Character, String> c = createTable();
         fillTable(c);
-        Table emptyTable = new EnumTable<>(VerticalAlignment.class, HorizontalAlignment.class);
+        Table emptyTable = createTable();
 
         // reflexive
         assertEquals(a, a);
@@ -118,9 +122,9 @@ public class EnumTableTest {
 
         int hashCode = table.hashCode();
 
-        int expected = new AbstractTable.SimpleCell<>(VerticalAlignment.TOP, HorizontalAlignment.LEFT, "Foo").hashCode();
-        expected += new AbstractTable.SimpleCell<>(VerticalAlignment.MIDDLE, HorizontalAlignment.CENTER, "Foo").hashCode();
-        expected += new AbstractTable.SimpleCell<>(VerticalAlignment.BOTTOM, HorizontalAlignment.RIGHT, "Foobar").hashCode();
+        int expected = new AbstractTable.SimpleCell<>(1, 'A', "Foo").hashCode();
+        expected += new AbstractTable.SimpleCell<>(2, 'B', "Foo").hashCode();
+        expected += new AbstractTable.SimpleCell<>(4, 'C', "Foobar").hashCode();
         assertEquals(expected, hashCode);
     }
 
@@ -131,7 +135,7 @@ public class EnumTableTest {
 
         fillTable(table);
         String filledTable = table.toString();
-        assertEquals("{(TOP, LEFT)=Foo, (MIDDLE, CENTER)=Foo, (BOTTOM, RIGHT)=Foobar}", filledTable);
+        assertEquals("{(1, A)=Foo, (2, B)=Foo, (4, C)=Foobar}", filledTable);
     }
 
 }

@@ -3,7 +3,7 @@
  * Released under the terms of the MIT License.
  */
 
-package de.muspellheim.java.util;
+package de.muspellheim.util.table;
 
 import java.util.*;
 
@@ -71,10 +71,10 @@ public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
             return false;
 
         try {
-            for (Cell<R, C, V> e : cellSet()) {
-                R rowKey = e.getRowKey();
-                C columnKey = e.getColumnKey();
-                V value = e.getValue();
+            for (Cell e : cellSet()) {
+                Object rowKey = e.getRowKey();
+                Object columnKey = e.getColumnKey();
+                Object value = e.getValue();
                 if (value == null) {
                     if (!(t.get(rowKey, columnKey) == null && t.containsCell(rowKey, columnKey)))
                         return false;

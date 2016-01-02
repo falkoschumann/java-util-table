@@ -3,7 +3,7 @@
  * Released under the terms of the MIT License.
  */
 
-package de.muspellheim.java.util;
+package de.muspellheim.util.table;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;

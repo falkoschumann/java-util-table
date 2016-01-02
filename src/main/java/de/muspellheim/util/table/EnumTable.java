@@ -3,7 +3,7 @@
  * Released under the terms of the MIT License.
  */
 
-package de.muspellheim.java.util;
+package de.muspellheim.util.table;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -114,7 +114,7 @@ public class EnumTable<R extends Enum<R>, C extends Enum<C>, V> extends Abstract
         }
 
         public String toString() {
-            return "de.muspellheim.java.util.EnumTable.NULL";
+            return "EnumTable.NULL";
         }
 
     };
