@@ -35,12 +35,12 @@ public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
 
     @Override
-    public boolean containsCell(Object rowKey, Object columnKey) {
+    public boolean containsCell(R rowKey, C columnKey) {
         return get(rowKey, columnKey) != null;
     }
 
     @Override
-    public boolean containsValue(Object value) {
+    public boolean containsValue(V value) {
         return values().contains(value);
     }
 
@@ -66,7 +66,7 @@ public abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
         if (!(o instanceof Table))
             return false;
-        Table<?, ?, ?> t = (Table<?, ?, ?>) o;
+        Table t = (Table) o;
         if (t.size() != size())
             return false;
 

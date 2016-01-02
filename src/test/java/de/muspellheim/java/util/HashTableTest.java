@@ -17,4 +17,9 @@ public class HashTableTest extends AbstractTableTest {
         return new HashTable<>();
     }
 
+    @Override
+    protected Table<Integer, Character, String> createTable(Table<Integer, Character, String> table) {
+        return new HashTable<>(table);
+    }
+
 }

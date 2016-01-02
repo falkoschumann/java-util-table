@@ -62,12 +62,12 @@ public class ArrayTable<R, C, V> extends AbstractTable<R, C, V> {
     }
 
     @Override
-    public V get(Object rowKey, Object columnKey) {
+    public V get(R rowKey, C columnKey) {
         return elementData(rowKey, columnKey);
     }
 
     @SuppressWarnings("unchecked")
-    private V elementData(Object rowKey, Object columnKey) {
+    private V elementData(R rowKey, C columnKey) {
         return (V) elementData[rowKeys.get(rowKey)][columnKeys.get(columnKey)];
     }
 

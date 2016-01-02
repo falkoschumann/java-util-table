@@ -19,4 +19,9 @@ public class ArrayTableTest extends AbstractTableTest {
         return new ArrayTable<>(Arrays.asList(1, 2, 3, 4), Arrays.asList('A', 'B', 'C'));
     }
 
+    @Override
+    protected Table<Integer, Character, String> createTable(Table<Integer, Character, String> table) {
+        return new ArrayTable<>(table);
+    }
+
 }

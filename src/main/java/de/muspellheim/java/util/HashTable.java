@@ -20,6 +20,14 @@ public class HashTable<R, C, V> extends AbstractTable<R, C, V> {
 
     private Map<Pair<R, C>, V> elementData = new LinkedHashMap<>();
 
+    public HashTable() {
+        // default constructor
+    }
+
+    public HashTable(Table<R, C, V> t) {
+        putAll(t);
+    }
+
     @Override
     public Set<Cell<R, C, V>> cellSet() {
         Set<Cell<R, C, V>> result = new LinkedHashSet<>();
@@ -28,7 +36,7 @@ public class HashTable<R, C, V> extends AbstractTable<R, C, V> {
     }
 
     @Override
-    public V get(Object rowKey, Object columnKey) {
+    public V get(R rowKey, C columnKey) {
         return elementData.get(new Pair<>(rowKey, columnKey));
     }
 
